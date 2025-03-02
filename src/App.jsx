@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/contexts/theme-context";
 // import Layout from "@/routes/layout";
 import ListCategory from "./routes/home/ListCategory";
 import ContentOfCategory from "./routes/home/ContentOfCategory";
+import QuizPage from "./routes/home/QuizPage";
 // import DashboardPage from "@/routes/dashboard/page";
 
  // Import ExerciseInfoPage
@@ -20,6 +21,10 @@ function App() {
         {
             path: "category/:id",
             element: <ContentOfCategory />
+        },
+        {
+            path: "test/:id",
+            element: <QuizPage />
         },
 
         // {
