@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { Categories } from '../api/CetegoryApi';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Lock, Mail, UserCircle } from 'lucide-react'; // Correct import
+import { User, Lock, Mail, UserCircle, Home, List, FileText, Menu } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { UserApi } from '../api/UserApi';
 import { message } from 'antd';
@@ -13,9 +13,10 @@ const Header = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSignUp, setIsSignUp] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
     
-    // Setup React Hook Form for login
+    // Login and Signup form setup (previous code remains the same)
     const { 
         register: registerLogin, 
         handleSubmit: handleLoginSubmit, 
@@ -23,7 +24,6 @@ const Header = () => {
         reset: resetLoginForm 
     } = useForm();
     
-    // Setup React Hook Form for signup
     const { 
         register: registerSignUp, 
         handleSubmit: handleSignUpSubmit, 
@@ -32,13 +32,12 @@ const Header = () => {
         watch: watchSignUp
     } = useForm();
     
-    // For password confirmation validation
     const password = watchSignUp ? watchSignUp("password") : "";
 
+    // Previous useEffect hooks remain the same
     useEffect(() => {
         const fetchResults = debounce(async (term) => {
             if (term) {
-                // Call API to get search results
                 const response = await Categories.getCategoriesWithName(term);
                 setSearchResults(response);
             } else {
@@ -60,14 +59,15 @@ const Header = () => {
         }
     }, []);
     
-    const handleLinkClick = (id) => {
-        navigate(`/category/${id}`);
-        window.location.reload();
+    // Navigation handlers
+    const handleNavigation = (path) => {
+        navigate(path);
+        setIsMobileMenuOpen(false);
     };
-    
+
+    // Previous login and modal methods remain the same
     const onLoginSubmit = async (data) => {
         console.log('Login data:', data);
-        // Handle login logic here
         const response = await UserApi.Login(data).then((res) => {
             if(res.status === 200) {
                 message.success('Login successful');
@@ -90,7 +90,6 @@ const Header = () => {
                 message.error('Register failed');
             }
         });
-        // Handle sign up logic here
         setIsModalOpen(false);
         resetSignUpForm();
     };
@@ -106,45 +105,104 @@ const Header = () => {
     };
 
     return (
-        <header className="h-24 bg-blue-600 flex items-center justify-between px-6 shadow-lg">
-            <h3 className="text-white font-bold">DoBroRus</h3>
-            
-            <div className="relative w-2/3">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    className="w-full h-12 p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                {searchResults.length > 0 && (
-                    <div className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 rounded-lg shadow-xl z-10 max-h-64 overflow-y-auto">
-                        <ul>
-                            {searchResults.map(result => (
-                                <li
-                                    key={result.id}
-                                    className="p-3 hover:bg-gray-100 cursor-pointer border-b border-gray-200 last:border-0"
-                                    onClick={() => handleLinkClick(result.id)}
-                                >
-                                    {result.name}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-            </div>
-            
-            <div className="flex gap-3">
-                {isLoggedIn ? (
-                    <UserCircle size={32} className="text-white" />
-                ) : (
+        <>
+            {/* Desktop Header */}
+            <header className="h-24 bg-blue-600 flex items-center justify-between px-6 shadow-lg relative z-40">
+                <h3 className="text-white font-bold">DoBroRus</h3>
+                
+                <div className="relative w-2/3">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        className="w-full h-12 p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {searchResults.length > 0 && (
+                        <div className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 rounded-lg shadow-xl z-10 max-h-64 overflow-y-auto">
+                            <ul>
+                                {searchResults.map(result => (
+                                    <li
+                                        key={result.id}
+                                        className="p-3 hover:bg-gray-100 cursor-pointer border-b border-gray-200 last:border-0"
+                                        onClick={() => handleNavigation(`/category/${result.id}`)}
+                                    >
+                                        {result.name}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+                
+                <div className="flex gap-3 items-center">
+                    {/* Desktop Navigation */}
+                    <nav className="hidden md:flex space-x-4 text-white">
+                        <button 
+                            onClick={() => handleNavigation('/')} 
+                            className="hover:bg-blue-700 px-3 py-2 rounded"
+                        >
+                            Trang chủ
+                        </button>
+                        <button 
+                            onClick={() => handleNavigation('/categories')} 
+                            className="hover:bg-blue-700 px-3 py-2 rounded"
+                        >
+                            Danh mục
+                        </button>
+                        <button 
+                            onClick={() => handleNavigation('/tests')} 
+                            className="hover:bg-blue-700 px-3 py-2 rounded"
+                        >
+                            Bài kiểm tra
+                        </button>
+                    </nav>
+{/* 
+                    {isLoggedIn ? (
+                        <UserCircle size={32} className="text-white" />
+                    ) : (
+                        <button 
+                            onClick={openModal}
+                            className="bg-white text-blue-600 px-4 py-2 h-12 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-sm"
+                        >
+                            Account
+                        </button>
+                    )} */}
+                </div>
+            </header>
+
+            {/* Mobile Bottom Navigation */}
+            <div className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl border-t border-gray-200 z-50 md:hidden">
+                <div className="grid grid-cols-4 py-2">
                     <button 
-                        onClick={openModal}
-                        className="bg-white text-blue-600 px-4 py-2 h-12 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-sm"
+                        onClick={() => handleNavigation('/')}
+                        className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
                     >
-                        Account
+                        <Home size={24} />
+                        <span>Trang chủ</span>
                     </button>
-                )}
+                    <button 
+                        onClick={() => handleNavigation('/categories')}
+                        className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
+                    >
+                        <List size={24} />
+                        <span>Danh mục</span>
+                    </button>
+                    <button 
+                        onClick={() => handleNavigation('/tests')}
+                        className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
+                    >
+                        <FileText size={24} />
+                        <span>Bài kiểm tra</span>
+                    </button>
+                    <button 
+                        onClick={isLoggedIn ? () => {} : openModal}
+                        className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
+                    >
+                        <UserCircle size={24} />
+                        <span>{isLoggedIn ? 'Tài khoản' : 'Đăng nhập'}</span>
+                    </button>
+                </div>
             </div>
             
             {/* Modal */}
@@ -301,23 +359,6 @@ const Header = () => {
                                     )}
                                 </div>
                                 
-                                {/* <div className="flex items-center justify-between">
-                                    <div className="flex items-center">
-                                        <input
-                                            {...registerLogin("rememberMe")}
-                                            type="checkbox"
-                                            id="rememberMe"
-                                            className="h-4 w-4 text-blue-600 rounded"
-                                        />
-                                        <label htmlFor="rememberMe" className="ml-2 text-gray-700">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    <a href="#" className="text-blue-600 hover:underline text-sm">
-                                        Forgot password?
-                                    </a>
-                                </div> */}
-                                
                                 <button
                                     type="submit"
                                     className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm"
@@ -342,7 +383,7 @@ const Header = () => {
                     </div>
                 </div>
             )}
-        </header>
+        </>
     );
 };
 

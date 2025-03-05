@@ -4,7 +4,7 @@ import Header from '../../hooks/Header';
 import { Categories } from '../../api/CetegoryApi';
 import { Tests } from '../../api/TestApi'; // Import the Tests API
 
-const ListCategory = () => {
+const Category = () => {
     const [categories, setCategories] = useState([]);
     const [tests, setTests] = useState([]); // State for tests
     const [loading, setLoading] = useState(true);
@@ -52,4 +52,4 @@ const ListCategory = () => {
     );
 };
 
-export default ListCategory;
+export default Category;

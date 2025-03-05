@@ -3,20 +3,26 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/theme-context";
 
 // import Layout from "@/routes/layout";
-import ListCategory from "./routes/home/ListCategory";
+// import ListCategory from "./routes/home/ListCategory";
 import ContentOfCategory from "./routes/home/ContentOfCategory";
 import QuizPage from "./routes/home/QuizPage";
+import Category from "./routes/category/Category";
+import HomePage from "./routes/home/HomePage";
 // import DashboardPage from "@/routes/dashboard/page";
 
  // Import ExerciseInfoPage
 
 function App() {
     const router = createBrowserRouter([
-
         {
             path: "/",
             index: true,
-            element: <ListCategory />,
+            element: <HomePage />,
+        },
+        {
+            path: "/categories",
+            index: true,
+            element: <Category />,
         },
         {
             path: "category/:id",
@@ -26,6 +32,10 @@ function App() {
             path: "test/:id",
             element: <QuizPage />
         },
+        // {
+        //     path: "/editor",
+        //     element: <Editor />
+        // },
 
         // {
         //     path: "/login", // Move login path outside of layout
