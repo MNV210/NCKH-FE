@@ -20,93 +20,10 @@ const QuizPage = () => {
         setQuestions(response);
         setIsLoading(false);   
     };
-    // Mock data - replace with API call
     useEffect(() => {
         getQuestionByTestId(param.id);
-        // Simulate API fetch
-        // setTimeout(() => {
-        //     const mockQuestions = [
-        //         {
-        //             id: 1,
-        //             question: "What is the capital of France?",
-        //             options: [
-        //                 { id: "a", text: "London" },
-        //                 { id: "b", text: "Berlin" },
-        //                 { id: "c", text: "Paris" },
-        //                 { id: "d", text: "Madrid" }
-        //             ],
-        //             correctAnswer: "c"
-        //         },
-        //         {
-        //             id: 2,
-        //             question: "Which planet is known as the Red Planet?",
-        //             options: [
-        //                 { id: "a", text: "Venus" },
-        //                 { id: "b", text: "Mars" },
-        //                 { id: "c", text: "Jupiter" },
-        //                 { id: "d", text: "Saturn" }
-        //             ],
-        //             correctAnswer: "b"
-        //         },
-        //         {
-        //             id: 3,
-        //             question: "What is the largest mammal?",
-        //             options: [
-        //                 { id: "a", text: "Elephant" },
-        //                 { id: "b", text: "Giraffe" },
-        //                 { id: "c", text: "Blue Whale" },
-        //                 { id: "d", text: "Hippopotamus" }
-        //             ],
-        //             correctAnswer: "c"
-        //         },
-        //         {
-        //             id: 4,
-        //             question: "Which element has the chemical symbol 'O'?",
-        //             options: [
-        //                 { id: "a", text: "Gold" },
-        //                 { id: "b", text: "Iron" },
-        //                 { id: "c", text: "Oxygen" },
-        //                 { id: "d", text: "Osmium" }
-        //             ],
-        //             correctAnswer: "c"
-        //         },
-        //         {
-        //             id: 5,
-        //             question: "Who painted the Mona Lisa?",
-        //             options: [
-        //                 { id: "a", text: "Vincent van Gogh" },
-        //                 { id: "b", text: "Pablo Picasso" },
-        //                 { id: "c", text: "Leonardo da Vinci" },
-        //                 { id: "d", text: "Michelangelo" }
-        //             ],
-        //             correctAnswer: "c"
-        //         }
-        //     ];
-            
-        //     setQuestions(mockQuestions);
-        //     setIsLoading(false);
-        // }, 500);
     }, []);
 
-    // Timer countdown
-    // useEffect(() => {
-    //     if (timeLeft <= 0 || showResults) {
-    //         return;
-    //     }
-
-    //     const timer = setTimeout(() => {
-    //         setTimeLeft(prevTime => prevTime - 1);
-    //     }, 1000);
-
-    //     return () => clearTimeout(timer);
-    // }, [timeLeft, showResults]);
-
-    // Format time to mm:ss
-    // const formatTime = (seconds) => {
-    //     const minutes = Math.floor(seconds / 60);
-    //     const remainingSeconds = seconds % 60;
-    //     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-    // };
 
     // Handle answer selection
     const handleAnswerSelection = (questionId, answerId) => {
@@ -139,14 +56,15 @@ const QuizPage = () => {
             }
         });
 
+        const storage = JSON.parse(localStorage.getItem("user") || "{}");         
         const data = {
-            "user_id" : sessionStorage.getItem("user_id"),
+            "user_id" : storage.user_id,
             "exercise_id" : param.id,
             "score" : newScore,
             "total_question" : questions.length
 
         }
-        const response = await Tests.historyMakeTest().then((res) =>{
+        const response = await Tests.historyMakeTest(data).then((res) =>{
             message.success("Nop bai thanh cong")
         });
         

@@ -10,6 +10,7 @@ import HomePage from "./routes/home/HomePage";
 import ContentOfCategory from "./routes/category/ContentOfCategory";
 import ContentOfBlog from "./routes/home/ContentOfBlog";
 import TestList from "./routes/tests/TestList";
+import ResultTest from "./routes/tests/ResultTest";
 
 // import DashboardPage from "@/routes/dashboard/page";
 
@@ -42,6 +43,10 @@ function App() {
         {
             path: "blog/:id",
             element: <ContentOfBlog />
+        },
+        {
+            path: "result/:id",
+            element: <ResultTest/>
         },
         // {
         //     path: "/dashboard",

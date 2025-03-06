@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { get } from 'react-hook-form';
 
 export const Tests = {
     getTests: async () => {
@@ -12,6 +11,10 @@ export const Tests = {
     },
     historyMakeTest: async (data) => {
         const response = await axios.post('http://localhost:8000/api/history_test', data);
+        return response.data;
+    },
+    getHistoryMakeTest: async (data) => {
+        const response = await axios.post('http://localhost:8000/api/history_make_test', data);
         return response.data;
     }
 };

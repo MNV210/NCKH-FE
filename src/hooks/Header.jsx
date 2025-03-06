@@ -6,6 +6,7 @@ import { User, Lock, Mail, UserCircle, Home, List, FileText, Menu } from 'lucide
 import { useForm } from 'react-hook-form';
 import { UserApi } from '../api/UserApi';
 import { message } from 'antd';
+import { HeadContent } from '../api/HeadContent';
 
 const Header = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -38,7 +39,8 @@ const Header = () => {
     useEffect(() => {
         const fetchResults = debounce(async (term) => {
             if (term) {
-                const response = await Categories.getCategoriesWithName(term);
+                const response = await HeadContent.getHeadContentByName(term);
+                console.log(response)
                 setSearchResults(response);
             } else {
                 setSearchResults([]);
@@ -71,7 +73,8 @@ const Header = () => {
         const response = await UserApi.Login(data).then((res) => {
             if(res.status == 200) {
                 message.success('Login successful');
-                sessionStorage.setItem('user', JSON.stringify(res.data));
+                localStorage.setItem('user', JSON.stringify(res));
+                sessionStorage.setItem('user', JSON.stringify(res));
                 setIsLoggedIn(true);
             } 
         }).catch((error) => {
@@ -125,9 +128,9 @@ const Header = () => {
                                     <li
                                         key={result.id}
                                         className="p-3 hover:bg-gray-100 cursor-pointer border-b border-gray-200 last:border-0"
-                                        onClick={() => handleNavigation(`/category/${result.id}`)}
+                                        onClick={() => handleNavigation(`/subcategory/${result.id}`)}
                                     >
-                                        {result.name}
+                                        {result.title}
                                     </li>
                                 ))}
                             </ul>
@@ -190,7 +193,8 @@ const Header = () => {
                     </button>
                     <button 
                         onClick={() => handleNavigation('/tests')}
-                        className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
+                        className={`flex flex-col items-center justify-center text-sm ${isLoggedIn ? 'text-gray-600 hover:text-blue-600' : 'text-gray-400 cursor-not-allowed'}`}
+                        disabled={!isLoggedIn}
                     >
                         <FileText size={24} />
                         <span>Bài kiểm tra</span>
