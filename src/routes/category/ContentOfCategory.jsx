@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../hooks/Header';
 import { useParams } from 'react-router-dom';
 import { HeadContent } from '../../api/HeadContent';
+import { set } from 'react-hook-form';
 
 const ContentOfCategory = () => {
     const params = useParams();
     const [contents, setContents] = useState([]);
+    const [headContent, setHeadContent] = useState({});
   // Table headers
   const headers = [
     { key: 'nga', label: 'Tiếng Nga' },
@@ -23,15 +25,22 @@ const ContentOfCategory = () => {
     }
   }
 
+  const getHeadContentById = async() => {
+      const response = await HeadContent.getHeadContentById(params.id)
+      console.log(response)
+      setHeadContent(response)
+  }
+
   useEffect(() => {
     getContent();
+    getHeadContentById()
   }, [params.id]);
 
   return (
     <div className="container mx-auto p-4 mb-10">
       <Header />
       {/* <h1 className="text-2xl font-bold mb-6">Danh sách từ vựng</h1> */}
-        <h3 className='text-xl font-bold mb-4 text-center mt-4'>{params.name}</h3>
+        <h3 className='text-xl font-bold mb-4 text-center mt-4'>{headContent.title}</h3>
 
       {contents.length === 0 ? (
         <div className="text-center text-gray-500">hiện chưa có dữ liệu</div>

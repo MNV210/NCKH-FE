@@ -56,7 +56,7 @@ const Category = () => {
   const navigate = useNavigate();
 
   const handleSubcategoryClick = (subcategoryId,name) => {
-    navigate(`/subcategory/${name}/${subcategoryId}`);
+    navigate(`/subcategory/${subcategoryId}`);
   };
 
   return (

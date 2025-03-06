@@ -29,7 +29,7 @@ function App() {
             element: <Category />,
         },
         {
-            path: "subcategory/:name/:id",
+            path: "subcategory/:id",
             element: <ContentOfCategory />
         },
         {
