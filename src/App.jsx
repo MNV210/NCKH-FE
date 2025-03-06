@@ -4,10 +4,11 @@ import { ThemeProvider } from "@/contexts/theme-context";
 
 // import Layout from "@/routes/layout";
 // import ListCategory from "./routes/home/ListCategory";
-import ContentOfCategory from "./routes/home/ContentOfCategory";
 import QuizPage from "./routes/home/QuizPage";
 import Category from "./routes/category/Category";
 import HomePage from "./routes/home/HomePage";
+import ContentOfCategory from "./routes/category/ContentOfCategory";
+
 // import DashboardPage from "@/routes/dashboard/page";
 
  // Import ExerciseInfoPage
@@ -25,13 +26,17 @@ function App() {
             element: <Category />,
         },
         {
-            path: "category/:id",
+            path: "subcategory/:name/:id",
             element: <ContentOfCategory />
         },
         {
             path: "test/:id",
             element: <QuizPage />
         },
+        // {
+        //     path: "/dashboard",
+        //     element: <ContentOfCategory />,
+        // }
         // {
         //     path: "/editor",
         //     element: <Editor />

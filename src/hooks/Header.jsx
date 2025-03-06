@@ -69,13 +69,13 @@ const Header = () => {
     const onLoginSubmit = async (data) => {
         console.log('Login data:', data);
         const response = await UserApi.Login(data).then((res) => {
-            if(res.status === 200) {
+            if(res.status == 200) {
                 message.success('Login successful');
                 sessionStorage.setItem('user', JSON.stringify(res.data));
                 setIsLoggedIn(true);
-            } else {
-                message.error('Login failed');
-            }
+            } 
+        }).catch((error) => {
+            message.error('Tài khoản hoặc mật khẩu không chính xác');
         });
         setIsModalOpen(false);
         resetLoginForm();
@@ -172,8 +172,8 @@ const Header = () => {
             </header>
 
             {/* Mobile Bottom Navigation */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl border-t border-gray-200 z-50 md:hidden">
-                <div className="grid grid-cols-4 py-2">
+            <div className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl border-t border-gray-200 z-50 md:hidden flex justify-between items-center p-2">
+                {/* <div className="grid grid-cols-4 py-2"> */}
                     <button 
                         onClick={() => handleNavigation('/')}
                         className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
@@ -188,13 +188,13 @@ const Header = () => {
                         <List size={24} />
                         <span>Danh mục</span>
                     </button>
-                    <button 
+                    {/* <button 
                         onClick={() => handleNavigation('/tests')}
                         className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
                     >
                         <FileText size={24} />
                         <span>Bài kiểm tra</span>
-                    </button>
+                    </button> */}
                     <button 
                         onClick={isLoggedIn ? () => {} : openModal}
                         className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
@@ -202,7 +202,7 @@ const Header = () => {
                         <UserCircle size={24} />
                         <span>{isLoggedIn ? 'Tài khoản' : 'Đăng nhập'}</span>
                     </button>
-                </div>
+                {/* </div> */}
             </div>
             
             {/* Modal */}
