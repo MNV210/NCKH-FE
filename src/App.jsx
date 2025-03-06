@@ -8,6 +8,7 @@ import QuizPage from "./routes/home/QuizPage";
 import Category from "./routes/category/Category";
 import HomePage from "./routes/home/HomePage";
 import ContentOfCategory from "./routes/category/ContentOfCategory";
+import ContentOfBlog from "./routes/home/ContentOfBlog";
 
 // import DashboardPage from "@/routes/dashboard/page";
 
@@ -32,6 +33,14 @@ function App() {
         {
             path: "test/:id",
             element: <QuizPage />
+        },
+        // {
+        //     path: "blog",
+        //     element: <ContentOfBlog />
+        // },
+        {
+            path: "blog/:id",
+            element: <ContentOfBlog />
         },
         // {
         //     path: "/dashboard",
