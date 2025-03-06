@@ -9,6 +9,7 @@ import Category from "./routes/category/Category";
 import HomePage from "./routes/home/HomePage";
 import ContentOfCategory from "./routes/category/ContentOfCategory";
 import ContentOfBlog from "./routes/home/ContentOfBlog";
+import TestList from "./routes/tests/TestList";
 
 // import DashboardPage from "@/routes/dashboard/page";
 
@@ -34,10 +35,10 @@ function App() {
             path: "test/:id",
             element: <QuizPage />
         },
-        // {
-        //     path: "blog",
-        //     element: <ContentOfBlog />
-        // },
+        {
+            path: "tests",
+            element: <TestList />
+        },
         {
             path: "blog/:id",
             element: <ContentOfBlog />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Tests } from '../../api/TestApi';
+import { message } from 'antd';
 
 const QuizPage = () => {
     const [questions, setQuestions] = useState([]);
@@ -130,12 +131,23 @@ const QuizPage = () => {
     };
 
     // Submit quiz
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         let newScore = 0;
         questions.forEach(question => {
             if (selectedAnswers[question.id] === question.answer) {
                 newScore += 1;
             }
+        });
+
+        const data = {
+            "user_id" : sessionStorage.getItem("user_id"),
+            "exercise_id" : param.id,
+            "score" : newScore,
+            "total_question" : questions.length
+
+        }
+        const response = await Tests.historyMakeTest().then((res) =>{
+            message.success("Nop bai thanh cong")
         });
         
         setScore(newScore);

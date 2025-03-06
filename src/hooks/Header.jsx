@@ -188,13 +188,13 @@ const Header = () => {
                         <List size={24} />
                         <span>Danh mục</span>
                     </button>
-                    {/* <button 
+                    <button 
                         onClick={() => handleNavigation('/tests')}
                         className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
                     >
                         <FileText size={24} />
                         <span>Bài kiểm tra</span>
-                    </button> */}
+                    </button>
                     <button 
                         onClick={isLoggedIn ? () => {} : openModal}
                         className="flex flex-col items-center justify-center text-sm text-gray-600 hover:text-blue-600"
